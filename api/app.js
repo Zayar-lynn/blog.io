@@ -13,7 +13,9 @@ const Post = require("./models/Post");
 
 const app = express();
 
-app.use(cors({ credentials: true, origin: "https://blog-client-ukb3.onrender.com" }));
+app.use(
+  cors({ credentials: true, origin: "https://blog-client-ukb3.onrender.com" })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(upload.none());
@@ -53,10 +55,16 @@ app.post("/login", async (req, res) => {
       {},
       (err, token) => {
         if (err) throw err;
-        res.cookie("token", token).json({
-          username,
-          user_id: userDoc._id,
-        });
+        res
+          .cookie("token", token, {
+            secure: true,
+            path: "/",
+            sameSite: "none",
+          })
+          .json({
+            username,
+            user_id: userDoc._id,
+          });
       }
     );
   } else {
@@ -77,7 +85,13 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  res.cookie("token", "").json("logout successful");
+  res
+    .cookie("token", "", {
+      secure: true,
+      path: "/",
+      sameSite: "none",
+    })
+    .json("logout successful");
 });
 
 // CRUD Operation
