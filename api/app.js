@@ -14,7 +14,7 @@ const Post = require("./models/Post");
 const app = express();
 
 app.use(
-  cors({ credentials: true, origin: "https://blog-client-ukb3.onrender.com" })
+  cors({ credentials: true, origin: "https://filmx-frontend.onrender.com" })
 );
 app.use(express.json());
 app.use(cookieParser());
